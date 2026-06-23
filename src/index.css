@@ -1,0 +1,210 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --c-porcelain: 251 247 241;
+    --c-almond: 239 231 218;
+    --c-sand: 228 215 197;
+    --c-bistre: 42 33 27;
+    --c-clay: 122 104 87;
+    --c-ink: 42 33 27;
+    --c-cream: 251 247 241;
+    --c-gold: 184 146 79;
+    --c-gold-soft: 203 168 106;
+    --c-gold-deep: 138 106 46;
+    --c-garnet: 122 46 59;
+    --c-garnet-deep: 94 34 44;
+    --glow: 184, 146, 79;
+  }
+
+  .dark {
+    --c-porcelain: 21 16 11; /* deep espresso page */
+    --c-almond: 32 25 18; /* raised surface */
+    --c-sand: 46 37 27;
+    --c-bistre: 242 234 222; /* primary text → warm cream */
+    --c-clay: 176 159 140; /* muted text */
+    --c-ink: 13 10 6; /* deepest dramatic bands */
+    --c-cream: 242 234 222; /* light text on ink */
+    --c-gold: 201 168 106;
+    --c-gold-soft: 217 190 134;
+    --c-gold-deep: 192 156 92;
+    --c-garnet: 205 116 130; /* brighter rose, visible on dark */
+    --c-garnet-deep: 168 86 99;
+    --glow: 206, 172, 110;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-porcelain text-bistre font-sans antialiased;
+    font-weight: 400;
+    overflow-x: hidden;
+    transition: background-color 0.5s ease, color 0.5s ease;
+  }
+
+  ::selection {
+    background: rgba(122, 46, 59, 0.16);
+    color: #2a211b;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display;
+    font-weight: 400;
+  }
+
+  /* Refined scrollbar to match the warm palette */
+  ::-webkit-scrollbar {
+    width: 11px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #f1e9dd;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #cbb795;
+    border-radius: 20px;
+    border: 3px solid #f1e9dd;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #b8924f;
+  }
+
+  .dark ::-webkit-scrollbar-track {
+    background: #1b150f;
+  }
+  .dark ::-webkit-scrollbar-thumb {
+    background: #4a3f30;
+    border-color: #1b150f;
+  }
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: #6f5c3f;
+  }
+
+  .dark ::selection {
+    background: rgba(205, 116, 130, 0.26);
+    color: #f2eade;
+  }
+}
+
+@layer components {
+  .container-luxe {
+    @apply mx-auto w-full max-w-content px-6 sm:px-8 lg:px-12;
+  }
+
+  .eyebrow {
+    @apply font-sans text-[0.7rem] font-medium uppercase tracking-eyebrow text-gold-deep;
+  }
+
+  /* Animated hairline that draws itself under headings */
+  .rule-draw {
+    transform-origin: left center;
+  }
+
+  /* The signature "Glow" — a soft breathing radial luminance */
+  .glow {
+    position: absolute;
+    border-radius: 9999px;
+    background: radial-gradient(
+      circle at center,
+      rgba(var(--glow), 0.55) 0%,
+      rgba(var(--glow), 0.22) 35%,
+      rgba(var(--glow), 0) 70%
+    );
+    filter: blur(8px);
+    pointer-events: none;
+    will-change: transform, opacity;
+    animation: breathe 9s ease-in-out infinite;
+  }
+
+  .glow--rose {
+    background: radial-gradient(
+      circle at center,
+      rgba(122, 46, 59, 0.28) 0%,
+      rgba(122, 46, 59, 0.12) 40%,
+      rgba(122, 46, 59, 0) 72%
+    );
+  }
+
+  .input {
+    @apply w-full rounded-xl border border-bistre/15 bg-porcelain px-4 py-3 font-sans text-[0.95rem] text-bistre
+      placeholder:text-clay/60 transition-colors duration-200
+      focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/25;
+  }
+
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .link-underline:hover {
+    background-size: 100% 1px;
+  }
+
+  .btn-primary {
+    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-bistre px-7 py-3.5
+      font-sans text-[0.82rem] font-medium uppercase tracking-wide text-porcelain
+      transition-colors duration-300 ease-luxe hover:bg-garnet;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-bistre/25 px-7 py-3.5
+      font-sans text-[0.82rem] font-medium uppercase tracking-wide text-bistre
+      transition-colors duration-300 ease-luxe hover:border-gold hover:text-gold-deep;
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.75;
+  }
+  50% {
+    transform: scale(1.12);
+    opacity: 1;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 38s linear infinite;
+}
+
+/* Honour users who prefer less motion — disable transforms and looping animation */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .glow {
+    animation: none;
+    opacity: 0.85;
+  }
+  .animate-marquee {
+    animation: none;
+  }
+}
